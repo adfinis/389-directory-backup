@@ -1,0 +1,40 @@
+[Unit]
+Description=389 Directory Server Backup (%i instance)
+Documentation=https://github.com/adfinis-sygroup/389-directory-backup
+After=dirsrv@%i.service
+Requires=dirsrv@%i.service
+
+AssertPathIsDirectory=/etc/dirsrv
+AssertPathExists=/usr/local/etc/389-directory-backup-%i.passwd
+
+[Service]
+Type=oneshot
+
+# Load the environment files, the first one acts as a default environment
+# file for all instances, whereas the second one can be optionally used to
+# override defaults on a per instance basis.
+EnvironmentFile=/usr/local/etc/389-directory-backup-env.conf
+EnvironmentFile=-/usr/local/etc/389-directory-backup-%i-env.conf
+
+ExecStart=/usr/local/bin/389-directory-backup.sh \
+              -i %i \
+              -p /usr/local/etc/389-directory-backup-%i.passwd
+
+# Run as the same user and group as the 389 directory server itself
+# to be able to create the initial backup directory structure and avoid
+# unnecessary root privileges.
+User=dirsrv
+Group=dirsrv
+
+# Hardening
+# https://www.freedesktop.org/software/systemd/man/systemd.exec.html#Sandboxing
+ProtectSystem=full
+ProtectHome=read-only
+PrivateTmp=true
+PrivateDevices=true
+ProtectKernelTunables=true
+ProtectKernelModules=true
+ProtectControlGroups=true
+
+[Install]
+WantedBy=multi-user.target
