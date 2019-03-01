@@ -97,8 +97,8 @@ chown root:dirsrv /etc/389-directory-backup.passwd
 chmod 640 /etc/389-directory-backup.passwd
 echo -n "changeme" > /etc/389-directory-backup.passwd
 
-# Initiate a backup
-389-directory-backup.sh -i "ldap-01"
+# Initiate a backup as the dirsrv user
+su -c '389-directory-backup.sh -i "ldap-01"' -s /bin/bash dirsrv
 ``` 
 
 The backup should be available at the following location:
