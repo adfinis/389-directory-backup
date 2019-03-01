@@ -1,0 +1,9 @@
+[Unit]
+Description=Run 389-directory-backup (%I) daily
+
+[Timer]
+# Run every day at midnight ("*-*-* 00:00:00")
+OnCalendar=daily
+
+[Install]
+WantedBy=timers.target
