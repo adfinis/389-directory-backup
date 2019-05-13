@@ -8,7 +8,7 @@
 #                    info@adfinis-sygroup.ch
 #
 # This program is free software: you can redistribute it and/or
-# modify it under the terms of the GNU Affero General Public 
+# modify it under the terms of the GNU Affero General Public
 # License as published  by the Free Software Foundation, version
 # 3 of the License.
 #
@@ -260,7 +260,7 @@ function processArguments ()
                 backupRootDir="${OPTARG}"
                 debugMsg "backupRootDir set to: '${backupRootDir}'"
             ;;
- 
+
             D )
                 # The Bind DN to be used
                 ldapBind="${OPTARG}"
@@ -330,7 +330,7 @@ function processArguments ()
         optionFlags[${option}]=true # Option was provided
     done
 
-    
+
     if ! [[ "${dirServInstanceName}" =~ ^([[:alnum:]]|[_\-])+$ ]]; then
         dieMsg "Invalid 389 directory server instance name specified"
     fi
@@ -380,7 +380,7 @@ function processArguments ()
     if ! [[ "${ldapBind}" =~ ^[[:alnum:]]+=[[:print:]]+$ ]]; then
         dieMsg "Invalid LDAP bind DN specified"
     fi
-    
+
     test -r "${ldapPasswdFile}" || \
         dieMsg "Non-existent or unreadable LDAP passwd file '${ldapPasswdFile}'"
 
@@ -550,7 +550,7 @@ function actionBackup ()
         find "${backupRootDir}" \
              -maxdepth 1 \
              -type d \
-             -name "${backupDirPrefix}\*" \
+             -name "${backupDirPrefix}*" \
              -mtime "+${backupDaysToKeep}" \
              -exec rm -rf {} \; || \
             dieMsg "Unable to remove old backups"
@@ -632,7 +632,7 @@ function waitForBackupTask ()
 
         debugMsg "Result from ldapsearch: '${stdout}'"
 
-        # Prevent hammering the 389 directory 
+        # Prevent hammering the 389 directory
         debugMsg "Sleeping for 5 seconds until the next task poll..."
         sleep 5
     done
